@@ -198,7 +198,7 @@ public class AVLTree {
         if (pNode != null)
         {
             inorder(pNode.getLeft());
-            System.out.print(pNode.getData() +" ");
+            this.debug(pNode);
             inorder(pNode.getRight());
         }
     }
@@ -390,6 +390,20 @@ public class AVLTree {
     
     public AVLNode getRoot(){
         return this.root;
+    }
+    
+    //Funcion para depurar el arbol
+    public void debug(AVLNode pNode){
+        for (int i = 0; i < pNode.getLinks().size() - 1; i++){
+            if (pNode.getLinks().get(i).getStatus() == false){
+                pNode.getLinks().get(i).setTrue();
+            }else{
+                pNode.getLinks().remove(i);
+            }
+        }
+        if (pNode.getLinks().size() == 0){
+            this.deleteNode(root, pNode.getData());
+        }
     }
     
 }
