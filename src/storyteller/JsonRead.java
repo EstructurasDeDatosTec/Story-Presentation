@@ -27,7 +27,7 @@ public class JsonRead {
             Object obj = parser.parse(new FileReader(pJsonPath));
 
             JSONObject jsonObject = (JSONObject) obj;
-            System.out.println(jsonObject);
+            //System.out.println(jsonObject);
 
             // loop in array of photo urls
             JSONArray tags = (JSONArray) jsonObject.get("Urls");
@@ -35,7 +35,7 @@ public class JsonRead {
             ApiCall api = new ApiCall();
             while (iterator.hasNext()) {
                 String URL = iterator.next();
-                System.out.println(URL);
+               // System.out.println(URL);
                 //Request Api call
                 api.photoAnalize(URL);
                

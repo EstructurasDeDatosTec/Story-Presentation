@@ -16,11 +16,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import tree.AVLTree;
 
 
 public class ApiCall {
     
     private HttpEntity entity;
+    private AVLTree photoTree= new AVLTree();
 
     public HttpEntity getFile() {
         return entity;
@@ -73,15 +75,20 @@ public class ApiCall {
                        
                         String PhotoTags = MoreConfidence[1];
                         PhotoTags = deleteChar(PhotoTags,"}");
+                        photoTree.insert(PhotoTags, url);
                         
-                        System.out.println(PhotoTags);
+                        //System.out.println(PhotoTags);
                     }
+                   
             }
         }
+        
         catch (Exception e)
         {
             System.out.println(e.getMessage());
         }
+         photoTree.inorder();
+         System.out.println("\n");
     }
     
     

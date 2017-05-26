@@ -199,6 +199,7 @@ public class AVLTree {
         {
             inorder(pNode.getLeft());
             System.out.print(pNode.getData() +" ");
+           
             inorder(pNode.getRight());
         }
     }
