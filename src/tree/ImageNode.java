@@ -1,21 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package tree;
 
-/**
- *
- * @author albertoobando
- */
-public class Image {
+public class ImageNode {
     
     private boolean Status;
     private String Link;
     
     //Constructor
-    public Image(String pLink){
+    public ImageNode(String pLink){
         this.Status = false;
         this.Link = pLink;
     }
@@ -41,4 +33,6 @@ public class Image {
     public String getLink(){
         return this.Link;
     }
+    
+    
 }

@@ -30,7 +30,6 @@ public class AVLTreeTest {
             System.out.println("3. count nodes");
             System.out.println("4. check empty");
             System.out.println("5. clear tree");
-            System.out.println("6. delete node");
  
             int choice = scan.nextInt();            
             switch (choice)
@@ -54,13 +53,7 @@ public class AVLTreeTest {
             case 5 : 
                 System.out.println("\nTree Cleared");
                 avlt.makeEmpty();
-                break;
-            case 6:
-                System.out.println("Enter string element to delete");
-                Scanner scan4 = new Scanner(System.in);
-                String deleteKey = scan4.nextLine();
-                avlt.deleteNode(avlt.getRoot(), deleteKey);
-                break;
+                break;         
             default : 
                 System.out.println("Wrong Entry \n ");
                 break;   

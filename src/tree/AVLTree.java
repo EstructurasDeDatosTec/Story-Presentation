@@ -1,14 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package tree;
 
-/**
- *
- * @author albertoobando
- */
+
 public class AVLTree {
     
     private AVLNode root;     
@@ -75,7 +68,7 @@ public class AVLTree {
         }
         else
         {
-            Image pImage = new Image(pLink);
+            ImageNode pImage = new ImageNode(pLink);
             pNode.getLinks().add(pImage);
         }
         pNode.setHeight( max( height( pNode.getLeft() ), height( pNode.getRight() ) ) + 1);

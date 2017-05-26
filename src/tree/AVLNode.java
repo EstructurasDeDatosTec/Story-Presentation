@@ -1,22 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package tree;
 
+import javafx.scene.chart.PieChart.Data;
 import java.util.ArrayList;
 
-import javafx.scene.chart.PieChart.Data;
 
-/**
- *
- * @author albertoobando
- */
 public class AVLNode {
     
     private AVLNode Left, Right;
-    private ArrayList<Image> Links = new ArrayList<Image>();
+    private ArrayList<ImageNode> Links = new ArrayList<ImageNode>();
     private String Data;
     private int Height;
 
@@ -35,7 +27,7 @@ public class AVLNode {
         Right = null;
         Data = pTag;
         Height = 0;
-        Image pImage = new Image(pLink);
+        ImageNode pImage = new ImageNode(pLink);
         this.Links.add(pImage);
     }
     
@@ -73,12 +65,12 @@ public class AVLNode {
             this.Height = height;
     }
     
-    public ArrayList<Image> getLinks(){
+    public ArrayList<ImageNode> getLinks(){
         return this.Links;
     }
     
     public void setLinks(String pLink){
-        Image pImage = new Image(pLink);
+        ImageNode pImage = new ImageNode(pLink);
         this.Links.add(pImage);
     }
     
