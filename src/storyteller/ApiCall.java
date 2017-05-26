@@ -68,13 +68,13 @@ public class ApiCall {
                 ArrayList<HashMap> a = (ArrayList<HashMap>) jsonFile.get("tags");
                 for( int i=0; i<3;i++ )
                     {
-                        String[] name = a.get(i).toString().split(",");
-                        String[] tagName = name[1].split(":");
+                        String[] TagName = a.get(i).toString().split(",");
+                        String[] MoreConfidence = TagName[1].split(":");
                        
-                        String v = tagName[1];
-                        v = EliminaCaracteres(v,"}");
+                        String PhotoTags = MoreConfidence[1];
+                        PhotoTags = deleteChar(PhotoTags,"}");
                         
-                        System.out.println(v);
+                        System.out.println(PhotoTags);
                     }
             }
         }
@@ -85,49 +85,33 @@ public class ApiCall {
     }
     
     
-    public String EliminaCaracteres(String s_cadena, String s_caracteres)
-{
-  String nueva_cadena = "";
-  Character caracter = null;
-  boolean valido = true;
- 
-  /* Va recorriendo la cadena s_cadena y copia a la cadena que va a regresar,
-     sólo los caracteres que no estén en la cadena s_caracteres */
-  for (int i=0; i<s_cadena.length(); i++)
-      {
-       valido = true;
-       for (int j=0; j<s_caracteres.length(); j++)
-           {
-            caracter = s_caracteres.charAt(j);
- 
-            if (s_cadena.charAt(i) == caracter)
-               {
-                valido = false;
-                break;
-               }
-           }
-       if (valido)
-           nueva_cadena += s_cadena.charAt(i);
-      }
- 
-  return nueva_cadena;
-}
-    
-   /* public  ArrayList<HashMap> Tags() throws IOException
+   public String deleteChar(String pString, String pChars)
     {
-        String File = EntityUtils.toString(entity);
-        ArrayList<HashMap> Tags  = new ArrayList<HashMap>();
-        JSONObject c = (JSONObject) entity;
-        ArrayList<HashMap> a = (ArrayList<HashMap>) c.get("tags");
-        for(HashMap i :a)
-        {
-            System.out.println(i.toString());
-        }
-        return Tags;
-    }
-    
-    */
-    
+        String new_string = "";
+        Character char_replace = null;
+        boolean valide = true;
 
+        /* Va recorriendo la cadena s_cadena y copia a la cadena que va a regresar,
+           sólo los caracteres que no estén en la cadena s_caracteres */
+        for (int i=0; i<pString.length(); i++)
+            {
+             valide = true;
+             for (int j=0; j<pChars.length(); j++)
+                 {
+                  char_replace = pChars.charAt(j);
+
+                  if (pString.charAt(i) == char_replace)
+                     {
+                      valide = false;
+                      break;
+                     }
+                 }
+             if (valide)
+                 new_string += pString.charAt(i);
+            }
+
+        return new_string;
+    }
+   
     
 }

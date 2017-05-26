@@ -20,24 +20,24 @@ public class JsonRead {
  
     
     
-    public void photoLinks(String i)
+    public void photoLinks(String pJsonPath)
      {
         JSONParser parser = new JSONParser(); 
                 try {
-            Object obj = parser.parse(new FileReader(i));
+            Object obj = parser.parse(new FileReader(pJsonPath));
 
             JSONObject jsonObject = (JSONObject) obj;
             System.out.println(jsonObject);
 
-            // loop array
+            // loop in array of photo urls
             JSONArray tags = (JSONArray) jsonObject.get("Urls");
             Iterator<String> iterator = tags.iterator();
             ApiCall api = new ApiCall();
-        
             while (iterator.hasNext()) {
-                String pene = iterator.next();
-                System.out.println(pene);
-                api.photoAnalize(pene);
+                String URL = iterator.next();
+                System.out.println(URL);
+                //Request Api call
+                api.photoAnalize(URL);
                
             }
             
