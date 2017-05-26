@@ -3,8 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Joseph%20Salas/Documents/NetBeansProjects/StoryTellerProyect/src/storyteller/ApiCall.java</file>
-            <file>file:/C:/Users/Joseph%20Salas/Documents/NetBeansProjects/StoryTellerProyect/src/storyteller/JsonWrite.java</file>
+            <file>file:/C:/Users/Joseph%20Salas/Documents/NetBeansProjects/StoryTeller/src/storyteller/ApiCall.java</file>
+            <file>file:/C:/Users/Joseph%20Salas/Documents/NetBeansProjects/StoryTeller/src/storyteller/JsonRead.java</file>
+            <file>file:/C:/Users/Joseph%20Salas/Documents/NetBeansProjects/StoryTeller/src/tree/AVLNode.java</file>
         </group>
     </open-files>
 </project-private>

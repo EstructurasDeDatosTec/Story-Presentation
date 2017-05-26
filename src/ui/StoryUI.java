@@ -79,7 +79,7 @@ public class StoryUI extends javax.swing.JFrame {
              JsonRead readAlbum = new JsonRead();
              String path = file.getAbsolutePath();
              readAlbum.photoLinks(path);
-             //System.out.println(file.getAbsolutePath());
+
          }
          
          
