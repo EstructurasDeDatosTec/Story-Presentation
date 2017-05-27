@@ -1,10 +1,14 @@
 
 package tree;
 
+import java.net.URL;
+import java.util.ArrayList;
+
 
 public class AVLTree {
     
-    private AVLNode root;     
+    private AVLNode root;  
+    ArrayList<String> urlPhotos = new ArrayList();
 	 
     /* Constructor */
     public AVLTree()
@@ -25,7 +29,7 @@ public class AVLTree {
     }
     
     /* Function to insert data */
-    public void insert(String data, String pLink)
+    public void insert(String data, ImageNode pLink)
     {
         root = insert(data, root, pLink);
     }
@@ -43,7 +47,7 @@ public class AVLTree {
     }
     
     /* Function to insert data recursively */
-    private AVLNode insert(String pTag, AVLNode pNode, String pLink)
+    private AVLNode insert(String pTag, AVLNode pNode, ImageNode pLink)
     {
         if (pNode == null)
             pNode = new AVLNode(pTag, pLink);
@@ -68,8 +72,7 @@ public class AVLTree {
         }
         else
         {
-            ImageNode pImage = new ImageNode(pLink);
-            pNode.getLinks().add(pImage);
+            pNode.getLinks().add(pLink);
         }
         pNode.setHeight( max( height( pNode.getLeft() ), height( pNode.getRight() ) ) + 1);
         return pNode;
@@ -115,24 +118,7 @@ public class AVLTree {
         return rotateWithRightChild( k1Node );
     }  
     
-    /* Functions to count number of nodes */
-    public int countNodes()
-    {
-        return countNodes(root);
-    }
-    
-    private int countNodes(AVLNode pNode)
-    {
-        if (pNode == null)
-            return 0;
-        else
-        {
-            int lenght = 1;
-            lenght += countNodes(pNode.getLeft());
-            lenght += countNodes(pNode.getRight());
-            return lenght;
-        }
-    }
+
     
     /* Functions to search for an element */
     public boolean search(String pVal)
@@ -160,32 +146,6 @@ public class AVLTree {
         return found;
     }
     
-    /*Functions to find an element and return it*/
-    public AVLNode searchAndGet(String pTag){
-        return searchAndGet(root, pTag);
-    }
-    
-    
-    public AVLNode searchAndGet(AVLNode pNode, String pVal){
-        AVLNode result = null;
-        boolean found = false;
-        while ((pNode != null) && !found)
-        {
-            String rval = (String) pNode.getData();
-            if (pVal.compareTo(rval) < 0)
-                pNode = pNode.getLeft();
-            else if (pVal.compareTo(rval) > 0)
-                pNode = pNode.getRight();
-            else
-            {
-                found = true;
-                return pNode;
-            }
-            found = search(pNode, pVal);
-        }
-        
-        return result;
-    }
     
     /* Function for inorder traversal */
     public void inorder()
@@ -195,13 +155,16 @@ public class AVLTree {
     
     private void inorder(AVLNode pNode)
     {
+        
         if (pNode != null)
         {
             inorder(pNode.getLeft());
-            System.out.print(pNode.getData() +" ");
+            System.out.print(pNode.getData() +" "); 
            
             inorder(pNode.getRight());
+           
         }
+        
     }
     
     /* Function for preorder traversal */
@@ -220,20 +183,7 @@ public class AVLTree {
         }
     }
     
-    /* Function for postorder traversal */
-    public void postorder()
-    {
-        postorder(root);
-    }
-    private void postorder(AVLNode pNode)
-    {
-        if (pNode != null)
-        {
-            postorder(pNode.getLeft());             
-            postorder(pNode.getRight());
-            System.out.print(pNode.getData() +" ");
-        }
-    }
+ 
     
     public int getBalance(AVLNode pNode)
     {
@@ -376,16 +326,89 @@ public class AVLTree {
     {
         AVLNode current = node;
  
-        /* loop down to find the leftmost leaf */
         while (current.getLeft() != null)
            current = current.getLeft();
  
         return current;
     }
+
     
     //Setters y getters
     
-    public void setRoot(AVLNode pNode){
+   
+    
+    
+public void debug(AVLNode pNode){
+        if (pNode.getLinks().size() == 1){
+            if (pNode.getLinks().get(0).getStatus() == false){
+                pNode.getLinks().get(0).setTrue();
+            }else{
+                pNode.getLinks().remove(0);
+                
+            }
+        }else{
+            int arraySize = pNode.getLinks().size();
+            for (int i = arraySize-1; i >= 0; i--){
+                if (pNode.getLinks().get(i).getStatus() == false){
+                    pNode.getLinks().get(i).setTrue();
+                }else{
+                    pNode.getLinks().remove(i);
+                }
+            }
+        }
+    }
+    
+    public void debugTree()
+    {
+        debugTree(root);
+    }
+    
+    private void debugTree(AVLNode pNode)
+    {
+        if (pNode != null)
+        {
+            debugTree(pNode.getLeft());
+            debug(pNode);
+            debugTree(pNode.getRight());
+        }
+    }
+      
+  public ArrayList<ImageNode> getImagesNode()
+    {
+        ArrayList<ImageNode> result = new ArrayList<ImageNode>();
+        getImagesNode(root, result);
+        System.out.println("\n");
+        System.out.println(result);
+        return result;
+    }
+    
+   private void getImagesNode(AVLNode pNode, ArrayList<ImageNode> pArray)
+    {
+        if (pNode != null)
+        {
+            getImagesNode(pNode.getLeft(), pArray);
+            ArrayList<ImageNode> temp = this.getImagesNodeList(pNode, pArray);
+            getImagesNode(pNode.getRight(), temp);
+        }
+    }
+    
+    public ArrayList<ImageNode> getImagesNodeList(AVLNode pNode, ArrayList<ImageNode> pArray)
+    {
+        if (pNode.getLinks().size() == 1){
+            pArray.add(pNode.getLinks().get(0));
+        }else{
+            for(int i=0 ; i<pNode.getLinks().size()-1;i++)
+            {
+                pArray.add(pNode.getLinks().get(i));
+            } 
+        }
+        return pArray;
+    }
+    
+    
+    
+    
+     public void setRoot(AVLNode pNode){
         this.root = pNode;
     }
     
@@ -393,4 +416,26 @@ public class AVLTree {
         return this.root;
     }
     
+    public void printTree(){
+        printTree(root);
+    }
+    
+    public void printTree(AVLNode pNode){
+        if (pNode != null)
+        {
+            printTree(pNode.getLeft());
+            if (!pNode.getLinks().isEmpty()){
+                for (int i = 0; i < pNode.getLinks().size(); i++){
+                    System.out.print("Tag: ");
+                    System.out.println(pNode.getData());
+                    System.out.print("Image Link: ");
+                    System.out.println(pNode.getLinks().get(i).getLink());
+                    System.out.print("Image description: ");
+                    System.out.println(pNode.getLinks().get(i).getDescription());
+                }
+            }
+            printTree(pNode.getRight());
+        }
+    }
+
 }

@@ -2,6 +2,7 @@ package storyteller;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.http.HttpEntity;
@@ -17,34 +18,20 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import tree.AVLTree;
+import tree.ImageNode;
 
 
 public class ApiCall {
     
     private HttpEntity entity;
     private AVLTree photoTree= new AVLTree();
-
-    public HttpEntity getFile() {
-        return entity;
-    }
-
-    public void setFile(HttpEntity pEntity) {
-        entity = pEntity;
-    }
     
-    
-    
-    
-    public void photoAnalize(String url)
+    public void photoAnalize(String url) throws URISyntaxException, ParseException, IOException
     {
         HttpClient httpclient = new DefaultHttpClient();
 
-        try
-        {
-            URIBuilder builder = new URIBuilder("https://eastus2.api.cognitive.microsoft.com/vision/v1.0/analyze");
-
-            builder.setParameter("visualFeatures", "Tags");
-            //builder.setParameter("visualFeatures", "Description");
+            URIBuilder builder = new URIBuilder("https://eastus2.api.cognitive.microsoft.com/vision/v1.0/analyze"); 
+            builder.setParameter("visualFeatures", "Description");
             builder.setParameter("language", "en");
 
             URI uri = builder.build();
@@ -61,36 +48,36 @@ public class ApiCall {
             HttpResponse response = httpclient.execute(request);
             entity = response.getEntity();
             String File = EntityUtils.toString(entity);
+            ImageNode UrlImage = new ImageNode(url);
 
             if (entity != null)
             {
                ArrayList<HashMap> Tags  = new ArrayList<HashMap>();
                JSONParser parser = new JSONParser();
                JSONObject jsonFile = (JSONObject) parser.parse(File);
-                ArrayList<HashMap> a = (ArrayList<HashMap>) jsonFile.get("tags");
+               JSONObject descriptions = (JSONObject) jsonFile.get("description");
+                ArrayList<String> a = (ArrayList<String>) descriptions.get("tags");
+                ArrayList<JSONObject> b = (ArrayList<JSONObject>) descriptions.get("captions");
+                String captionText = (String) b.get(0).get("text");
+                UrlImage.setDescription(captionText);
                 for( int i=0; i<3;i++ )
                     {
                         String[] TagName = a.get(i).toString().split(",");
-                        String[] MoreConfidence = TagName[1].split(":");
-                       
-                        String PhotoTags = MoreConfidence[1];
-                        PhotoTags = deleteChar(PhotoTags,"}");
-                        photoTree.insert(PhotoTags, url);
-                        
-                        //System.out.println(PhotoTags);
+                        String FinalTag = TagName[0];
+                        photoTree.insert(FinalTag, UrlImage);
                     }
-                   
             }
-        }
-        
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-         photoTree.inorder();
-         System.out.println("\n");
+            
     }
     
+    public void debuggerTree()
+    {
+        
+        photoTree.inorder();
+        photoTree.debugTree();
+        photoTree.printTree();
+
+    }
     
    public String deleteChar(String pString, String pChars)
     {
@@ -98,8 +85,7 @@ public class ApiCall {
         Character char_replace = null;
         boolean valide = true;
 
-        /* Va recorriendo la cadena s_cadena y copia a la cadena que va a regresar,
-           sólo los caracteres que no estén en la cadena s_caracteres */
+
         for (int i=0; i<pString.length(); i++)
             {
              valide = true;
@@ -120,5 +106,18 @@ public class ApiCall {
         return new_string;
     }
    
+    public HttpEntity getFile() {
+        return entity;
+    }
+
+ 
+    public AVLTree getPhotoTree() {
+        return photoTree;
+    }
+
+    public void setPhotoTree(AVLTree photoTree) {
+        this.photoTree = photoTree;
+    }
+    
     
 }

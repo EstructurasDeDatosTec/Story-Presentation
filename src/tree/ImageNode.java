@@ -3,12 +3,11 @@ package tree;
 
 public class ImageNode {
     
-    private boolean Status;
+    private boolean Status=false;
     private String Link;
-    
+    private String Description;
     //Constructor
     public ImageNode(String pLink){
-        this.Status = false;
         this.Link = pLink;
     }
     
@@ -33,6 +32,20 @@ public class ImageNode {
     public String getLink(){
         return this.Link;
     }
+    
+    public void printImage()
+    {
+        System.out.println(this.getStatus());
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String Description) {
+        this.Description = Description;
+    }
+    
     
     
 }

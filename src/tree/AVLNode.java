@@ -21,14 +21,13 @@ public class AVLNode {
         Height = 0;
     }
     /* Constructor */
-    public AVLNode(String pTag, String pLink)
+    public AVLNode(String pTag, ImageNode pLink)
     {
         Left = null;
         Right = null;
         Data = pTag;
         Height = 0;
-        ImageNode pImage = new ImageNode(pLink);
-        this.Links.add(pImage);
+        this.Links.add(pLink);
     }
     
     //Setters and Getters
