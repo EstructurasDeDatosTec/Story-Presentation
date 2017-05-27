@@ -96,4 +96,52 @@ public class AVLNode implements Serializable{
         return pRoot;
     }
     
+    //Funciones para ver los datos de un nodo
+    public void recorrerDebugNode()
+    {
+        System.out.println(this.getData());
+        System.out.println("\n");
+        for(int i=0 ; i<=this.getLinks().size()-1;i++)
+        {
+            System.out.println(this.getLinks().get(i).getLink());
+            System.out.println("\n");
+            System.out.print(this.getLinks().get(i).getStatus());
+            System.out.println("\n");
+            
+        }
+    }
+    
+    //Funcion para debuguear un nodo
+    public void debug(){
+        if (this.getLinks().size() == 1){ //Cuando el nodo solo tiene una imagen
+            if (this.getLinks().get(0).getStatus() == false){
+                this.getLinks().get(0).setTrue();
+            }else{
+                this.getLinks().remove(0);
+            }
+        }else{ //Cuando tiene mas de una imagen
+            ArrayList<Integer> pointersToDelete = new ArrayList<Integer>();
+            for (int i = 0; i <= this.getLinks().size() - 1; i++){
+                if (this.getLinks().get(i).getStatus() == false){
+                    this.getLinks().get(i).setTrue();
+                }else{
+                    pointersToDelete.add(i); /*Me da los indices que tengo que
+                    eliminar
+                    */
+                }
+            }
+            //Empiezo a borrar los punteros
+            int amountToDelete = 0; //sirve para poder borrar el puntero correcto
+            if (pointersToDelete.isEmpty()){
+                //Do nothing
+            }else if (pointersToDelete.size() == 1){
+                this.getLinks().remove(pointersToDelete.get(0));
+            }
+            for (int x = 0; x < pointersToDelete.size(); x++){
+                this.getLinks().remove(pointersToDelete.get(x) - amountToDelete);
+                amountToDelete++;
+            }
+        }
+    }
+    
 }

@@ -5,11 +5,13 @@
  */
 package albums;
 
+import java.io.*;
+
 /**
  *
  * @author albertoobando
  */
-public class AlbumIndex {
+public class AlbumIndex implements Serializable{
     
     private String Key; //Nombre y llave del album
     private String Path; //El absolut path del album

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class AVLTree implements Serializable{
     
-    private AVLNode root;  
+    private AVLNode root; 
 	 
     /* Constructor */
     public AVLTree()
@@ -438,13 +438,17 @@ public class AVLTree implements Serializable{
         debugTree(root);
     }
     
-    private void debugTree(AVLNode pNode)
+    public void debugTree(AVLNode pNode)
     {
         if (pNode != null)
         {
             debugTree(pNode.getLeft());
-            this.debug(pNode);
-            debugTree(pNode.getRight());
+            pNode.debug();
+            if (pNode.getLinks().isEmpty()){
+                this.deleteNode(root, pNode.getData());
+            }else{
+                debugTree(pNode.getRight());
+            }
         }
     }
     
@@ -459,24 +463,11 @@ public class AVLTree implements Serializable{
         if (pNode != null)
         {
             recorrerDebug(pNode.getLeft());
-            this.recorrerDebugNode(pNode);
+            pNode.recorrerDebugNode();
             recorrerDebug(pNode.getRight());
         }
     }
     
-    public void recorrerDebugNode(AVLNode pNode)
-    {
-        System.out.println(pNode.getData());
-        System.out.println("\n");
-        for(int i=0 ; i<=pNode.getLinks().size()-1;i++)
-        {
-            System.out.println(pNode.getLinks().get(i).getLink());
-            System.out.println("\n");
-            System.out.print(pNode.getLinks().get(i).getStatus());
-            System.out.println("\n");
-            
-        }
-    }
         
     public ArrayList<String> getURLImages()
     {
@@ -485,7 +476,7 @@ public class AVLTree implements Serializable{
         return result;
     }
     
-    private void getURLImages(AVLNode pNode, ArrayList<String> pArray)
+    public void getURLImages(AVLNode pNode, ArrayList<String> pArray)
     {
         if (pNode != null)
         {
@@ -504,6 +495,39 @@ public class AVLTree implements Serializable{
             {
                 pArray.add(pNode.getLinks().get(i).getLink());
             } 
+        }
+        return pArray;
+    }
+    
+    public void deleteUnusedNodes(){
+        ArrayList<String> nodes = this.getNodesToDelete();
+        for (int i = 0; i < nodes.size(); i++){
+            this.deleteNode(root, nodes.get(i));
+        }
+    }
+    
+    
+    public ArrayList<String> getNodesToDelete()
+    {
+        ArrayList<String> result = new ArrayList<String>();
+        getNodesToDelete(root, result);
+        return result;
+    }
+    
+    public void getNodesToDelete(AVLNode pNode, ArrayList<String> pArray)
+    {
+        if (pNode != null)
+        {
+            getNodesToDelete(pNode.getLeft(), pArray);
+            ArrayList<String> temp = this.getNodesTagToDelete(pNode, pArray);
+            getNodesToDelete(pNode.getRight(), temp);
+        }
+    }
+    
+    public ArrayList<String> getNodesTagToDelete(AVLNode pNode, ArrayList<String> pArray)
+    {
+        if (pNode.getLinks().isEmpty()){
+            pArray.add(pNode.getData());
         }
         return pArray;
     }
