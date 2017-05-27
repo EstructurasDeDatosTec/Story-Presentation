@@ -1,11 +1,10 @@
 
 package tree;
 
-import javafx.scene.chart.PieChart.Data;
 import java.util.ArrayList;
+import java.io.Serializable;
 
-
-public class AVLNode {
+public class AVLNode implements Serializable{
     
     private AVLNode Left, Right;
     private ArrayList<ImageNode> Links = new ArrayList<ImageNode>();
@@ -21,14 +20,13 @@ public class AVLNode {
         Height = 0;
     }
     /* Constructor */
-    public AVLNode(String pTag, String pLink)
+    public AVLNode(String pTag, ImageNode pLink)
     {
         Left = null;
         Right = null;
         Data = pTag;
         Height = 0;
-        ImageNode pImage = new ImageNode(pLink);
-        this.Links.add(pImage);
+        this.Links.add(pLink);
     }
     
     //Setters and Getters

@@ -37,7 +37,8 @@ public class AVLTreeTest {
             case 1 : 
                 System.out.println("Enter string element to insert");
                 Scanner scan2 = new Scanner(System.in);
-                avlt.insert( scan2.nextLine() , "Link");                     
+                ImageNode example = new ImageNode("Link");
+                avlt.insert( scan2.nextLine() , example);                     
                 break;                          
             case 2 : 
                 System.out.println("Enter string element to search");

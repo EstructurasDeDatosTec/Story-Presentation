@@ -1,10 +1,12 @@
 
 package tree;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 
-public class AVLTree {
+public class AVLTree implements Serializable{
     
-    private AVLNode root;     
+    private AVLNode root;  
 	 
     /* Constructor */
     public AVLTree()
@@ -25,7 +27,7 @@ public class AVLTree {
     }
     
     /* Function to insert data */
-    public void insert(String data, String pLink)
+    public void insert(String data, ImageNode pLink)
     {
         root = insert(data, root, pLink);
     }
@@ -43,7 +45,7 @@ public class AVLTree {
     }
     
     /* Function to insert data recursively */
-    private AVLNode insert(String pTag, AVLNode pNode, String pLink)
+    private AVLNode insert(String pTag, AVLNode pNode, ImageNode pLink)
     {
         if (pNode == null)
             pNode = new AVLNode(pTag, pLink);
@@ -68,8 +70,7 @@ public class AVLTree {
         }
         else
         {
-            ImageNode pImage = new ImageNode(pLink);
-            pNode.getLinks().add(pImage);
+            pNode.getLinks().add(pLink);
         }
         pNode.setHeight( max( height( pNode.getLeft() ), height( pNode.getRight() ) ) + 1);
         return pNode;
@@ -198,7 +199,7 @@ public class AVLTree {
         if (pNode != null)
         {
             inorder(pNode.getLeft());
-            this.debug(pNode);
+            System.out.println(pNode.getData());
             inorder(pNode.getRight());
         }
     }
@@ -392,18 +393,119 @@ public class AVLTree {
         return this.root;
     }
     
-    //Funcion para depurar el arbol
+    //Funciones para depurar el arbol
+    //Funcion para depurar un nodo
     public void debug(AVLNode pNode){
-        for (int i = 0; i < pNode.getLinks().size() - 1; i++){
-            if (pNode.getLinks().get(i).getStatus() == false){
-                pNode.getLinks().get(i).setTrue();
+        if (pNode.getLinks().size() == 1){ //Cuando el nodo solo tiene una imagen
+            if (pNode.getLinks().get(0).getStatus() == false){
+                pNode.getLinks().get(0).setTrue();
             }else{
-                pNode.getLinks().remove(i);
+                pNode.getLinks().remove(0);
+            }
+        }else{ //Cuando tiene mas de una imagen
+            ArrayList<Integer> pointersToDelete = new ArrayList<Integer>();
+            for (int i = 0; i <= pNode.getLinks().size() - 1; i++){
+                if (pNode.getLinks().get(i).getStatus() == false){
+                    pNode.getLinks().get(i).setTrue();
+                }else{
+                    pointersToDelete.add(i); /*Me da los indices que tengo que
+                    eliminar
+                    */
+                }
+            }
+            //Empiezo a borrar los punteros
+            int amountToDelete = 0; //sirve para poder borrar el puntero correcto
+            if (pointersToDelete.isEmpty()){
+                //Do nothing
+            }else if (pointersToDelete.size() == 1){
+                pNode.getLinks().remove(pointersToDelete.get(0));
+            }
+            for (int x = 0; x < pointersToDelete.size(); x++){
+                pNode.getLinks().remove(pointersToDelete.get(x) - amountToDelete);
+                amountToDelete++;
             }
         }
-        if (pNode.getLinks().size() == 0){
+        
+        //Revisa si el nodo se quedo sin punteros a imagenes despues de depurar
+        if (pNode.getLinks().isEmpty()){
             this.deleteNode(root, pNode.getData());
         }
     }
     
+    //Funciones para depurar el arbol entero
+    public void debugTree()
+    {
+        debugTree(root);
+    }
+    
+    private void debugTree(AVLNode pNode)
+    {
+        if (pNode != null)
+        {
+            debugTree(pNode.getLeft());
+            this.debug(pNode);
+            debugTree(pNode.getRight());
+        }
+    }
+    
+    //Funciones para revisar el arbol ya depurado
+    public void recorrerDebug()
+    {
+        recorrerDebug(root);
+    }
+    
+    private void recorrerDebug(AVLNode pNode)
+    {
+        if (pNode != null)
+        {
+            recorrerDebug(pNode.getLeft());
+            this.recorrerDebugNode(pNode);
+            recorrerDebug(pNode.getRight());
+        }
+    }
+    
+    public void recorrerDebugNode(AVLNode pNode)
+    {
+        System.out.println(pNode.getData());
+        System.out.println("\n");
+        for(int i=0 ; i<=pNode.getLinks().size()-1;i++)
+        {
+            System.out.println(pNode.getLinks().get(i).getLink());
+            System.out.println("\n");
+            System.out.print(pNode.getLinks().get(i).getStatus());
+            System.out.println("\n");
+            
+        }
+    }
+        
+    public ArrayList<String> getURLImages()
+    {
+        ArrayList<String> result = new ArrayList<String>();
+        getURLImages(root, result);
+        return result;
+    }
+    
+    private void getURLImages(AVLNode pNode, ArrayList<String> pArray)
+    {
+        if (pNode != null)
+        {
+            getURLImages(pNode.getLeft(), pArray);
+            ArrayList<String> temp = this.getURLImagesNode(pNode, pArray);
+            getURLImages(pNode.getRight(), temp);
+        }
+    }
+    
+    public ArrayList<String> getURLImagesNode(AVLNode pNode, ArrayList<String> pArray)
+    {
+        if (pNode.getLinks().size() == 1){
+            pArray.add(pNode.getLinks().get(0).getLink());
+        }else{
+            for(int i=0 ; i<=pNode.getLinks().size()-1;i++)
+            {
+                pArray.add(pNode.getLinks().get(i).getLink());
+            } 
+        }
+        return pArray;
+    }
+        
 }

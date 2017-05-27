@@ -1,7 +1,9 @@
 
 package tree;
 
-public class ImageNode {
+import java.io.Serializable;
+
+public class ImageNode implements Serializable{
     
     private boolean Status;
     private String Link;
@@ -24,6 +26,10 @@ public class ImageNode {
     
     public boolean getStatus(){
         return this.Status;
+    }
+    
+    public void setStatus(boolean pStatus){
+        this.Status = pStatus;
     }
     
     public void setLink(String pLink){

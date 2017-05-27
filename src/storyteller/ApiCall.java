@@ -65,17 +65,17 @@ public class ApiCall {
                ArrayList<HashMap> Tags  = new ArrayList<HashMap>();
                JSONParser parser = new JSONParser();
                JSONObject jsonFile = (JSONObject) parser.parse(File);
-                ArrayList<HashMap> a = (ArrayList<HashMap>) jsonFile.get("tags");
-                for( int i=0; i<3;i++ )
-                    {
-                        String[] TagName = a.get(i).toString().split(",");
-                        String[] MoreConfidence = TagName[1].split(":");
-                       
-                        String PhotoTags = MoreConfidence[1];
-                        PhotoTags = deleteChar(PhotoTags,"}");
-                        
-                        System.out.println(PhotoTags);
-                    }
+               ArrayList<HashMap> a = (ArrayList<HashMap>) jsonFile.get("tags");
+               for( int i=0; i<3;i++ )
+               {
+                   String[] TagName = a.get(i).toString().split(",");
+                   String[] MoreConfidence = TagName[1].split(":");
+
+                   String PhotoTags = MoreConfidence[1];
+                   PhotoTags = deleteChar(PhotoTags,"}");
+
+                   System.out.println(PhotoTags);
+               }
             }
         }
         catch (Exception e)
